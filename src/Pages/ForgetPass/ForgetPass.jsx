@@ -9,12 +9,7 @@ import { userCont } from "../../context/User.context";
 export default function ForgetPass() {
   //within toast
   const [errorMsg, setErrorMsg] = useState(null);
-  //to go to login
   const navigate = useNavigate();
-  //^token context
-  // ^const x=useContext(useContext);
-  // ^x هنا ال
-  //^ كان هيبقا شايل كل حاجة بس انا مش عايز كل حاجة عايز بس حاجتين
   const { token, setToken } = useContext(userCont);
   const schema = yup.object({
     email: yup

@@ -11,11 +11,7 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState(null);
   //to go to login
   const navigate = useNavigate();
-  //^token context
-  // ^const x=useContext(userContext);
-  // ^x هنا ال
-  //^ كان هيبقا شايل كل حاجة بس انا مش عايز كل حاجة عايز بس حاجتين
-   const { token, setToken } = useContext(userCont);
+  const { token, setToken } = useContext(userCont);
   const schema = yup.object({
     email: yup
       .string()
@@ -59,7 +55,7 @@ export default function Login() {
           //^ dlw2ty hyt change el state bta3tha ehy mogoda fe eh context الي كله يقدر يشوفها
           //^ lma el user y logi sucessfuly
           //^we el value bta3t el token.... bta3 el "user" de ahna mehtagenha fe kol el app
-          localStorage.setItem("token",data.token)
+          localStorage.setItem("token", data.token);
           setToken(data.token);
           navigate("/app");
         }
@@ -124,8 +120,8 @@ export default function Login() {
             )}
           </div>
           <div>
-            <Link to="/auth/forgot-password">
-              <p>ForgetPass?</p>
+            <Link to="/auth/forgotpassword">
+              <p>Forget Password ?</p>
             </Link>
           </div>
           <button type="submit" className=" btn-primary ">

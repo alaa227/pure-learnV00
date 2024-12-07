@@ -1,5 +1,7 @@
 import "./App.css";
 import Layout from "./components/Layout/Layout";
+import VerifyResetCode from "./components/VerifyResetCode/VerifyResetCode";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import ProtectedRoute from "./Pages/ProtectedRoute/ProtectedRoute";
@@ -9,16 +11,18 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import { Toaster } from "react-hot-toast";
 import UserProvideer, { userCont } from "./context/User.context";
+import ForgetPass from "./Pages/ForgetPass/ForgetPass";
+
 function App() {
   function RootElement() {
-    const { token } = useContext(userCont); // استخدام Context للحصول على حالة المستخدم
+    const { token } = useContext(userCont); 
 
-    // إذا لم يكن هناك Token، عرض الصفحة التعريفية
+    
     if (!token) {
       return <LandingPage />;
     }
 
-    // إذا كان هناك Token، عرض الصفحات المحمية
+   
     return (
       <ProtectedRoute>
         <Layout />
@@ -56,9 +60,9 @@ function App() {
       children: [
         { path: "login", element: <Login /> },
         { path: "signup", element: <Register /> },
-        // { path: "forgot-password", element: <ForgetPass /> },
-        // { path: "verifyCode", element: <VerifyResetCode /> },
-        // { path: "resetPassword", element: <ResetPassword /> },
+        { path: "forgotpassword", element: <ForgetPass /> },
+        { path: "verifyCode", element: <VerifyResetCode /> },
+        { path: "resetPassword", element: <ResetPassword /> },
       ],
     },
   ]);

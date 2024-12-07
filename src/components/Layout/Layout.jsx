@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <>
       <Nav />
-      <div className="container pb-[250px] pt-[100px]">
+      <div className="container">
         <Outlet />
       </div>
 
