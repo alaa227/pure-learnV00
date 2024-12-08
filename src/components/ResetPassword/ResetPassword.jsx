@@ -11,7 +11,7 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState(null);
 
   const navigate = useNavigate();
-  
+
   const { token, setToken } = useContext(userCont);
   const schema = yup.object({
     email: yup
@@ -19,7 +19,7 @@ export default function Login() {
       .required("email is required")
       .email("email is not valid"),
 
-    newPassword: yup
+    newpassword: yup
       .string()
       .required("password is required")
       .matches(
@@ -30,7 +30,7 @@ export default function Login() {
   const formik = useFormik({
     initialValues: {
       email: "",
-      newPassword: "",
+      newpassword: "",
     },
     validationSchema: schema,
     onSubmit: sendData,
@@ -38,36 +38,44 @@ export default function Login() {
   async function sendData(values) {
     let id;
     try {
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
       const option = {
-        url: "https://ecommerce.routemisr.com/api/v1/auth/resetPassword ",
-        method: "PUT",
-        data: values,
+        url: "http://gradproj.runasp.net/api/student/update",
+        method: "POST",
+        data: formData,
       };
 
-      id = toast.loading("waiting...");
-      const { data } = await axios.request(option);
-      console.log(data);
-      toast.dismiss(id);
-      toast.success("user logedin successfully");
+      // id = toast.loading("waiting...");
+      const re = await axios.request(option);
+      console.log("ok");
 
-      setTimeout(() => {
-        if(token){ 
-            localStorage.setItem("token", data.token);
-        setToken(data.token);
-        navigate("/");
-        
-        }
-      }, 1000);
+      console.log(re);
+      // toast.dismiss(id);
+      // toast.success("user logedin successfully");
+
+      // setTimeout(() => {
+      //   if(token){
+      //       localStorage.setItem("token", data.token);
+      //   setToken(data.token);
+      //   navigate("/");
+
+      //   }
+      // }, 1000);
     } catch (error) {
-      toast.dismiss(id);
-      toast.error(error.response.data.message);
-      setErrorMsg(error.response.data.message);
+      console.log(error);
+
+      // toast.dismiss(id);
+      // toast.error(error.response.data.message);
+      // setErrorMsg(error.response.data.message);
     }
   }
 
   return (
     <>
-      <section>
+      <section className="mx-44 my-10">
         <h2 className="text-primary text-xl pb-4">
           <i className=" fa-regular fa-circle-user me-3"></i>
           <span>Reset Password </span>
@@ -97,14 +105,14 @@ export default function Login() {
               type="password"
               className=" form-control w-full"
               placeholder="password"
-              name="newPassword"
-              value={formik.values.newPassword}
+              name="newpassword"
+              value={formik.values.newpassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.errors.newPassword && formik.touched.newPassword ? (
+            {formik.errors.newpassword && formik.touched.newpassword ? (
               <div className=" text-red-600 font-semibold mt-2">
-                *{formik.errors.newPassword}
+                *{formik.errors.newpassword}
               </div>
             ) : (
               ""

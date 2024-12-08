@@ -4,8 +4,9 @@ export default function Home() {
    
   return (
     <>
-    <p>home</p>
-      
+      <h1 className="font-[900] text-primary text-5xl wow backInUp mt-10">
+        Coming Soon...
+      </h1>
     </>
   );
 }

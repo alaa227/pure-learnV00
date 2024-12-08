@@ -27,28 +27,33 @@ export default function ForgetPass() {
   async function sendData(values) {
     let id;
     try {
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
       const option = {
-        url: "https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords ",
+        url: "http://gradproj.runasp.net/api/student/forgetpassword ",
         method: "POST",
-        data: values,
+        data: formData,
       };
 
-      id = toast.loading("waiting...");
-      const { data } = await axios.request(option);
-      console.log(data);
-      toast.dismiss(id);
-      toast.success(data.message);
+      // id = toast.loading("waiting...");
+      const re = await axios.request(option);
+      console.log(re);
+      // toast.dismiss(id);
+      // toast.success(data.message);
 
-      setTimeout(() => {
-        if (data.statusMsg === "success") {
-        
-        navigate("/auth/verifyCode");
-        }
-      }, 3000);
+      // setTimeout(() => {
+      //   if (data.statusMsg === "success") {
+      //     navigate("/auth/verifyCode");
+      //   }
+      // }, 3000);
     } catch (error) {
-      toast.dismiss(id);
-      toast.error(error.response.data.message);
-      setErrorMsg(error.response.data.message);
+      console.log(error);
+
+      // toast.dismiss(id);
+      // toast.error(error.response.data.message);
+      // setErrorMsg(error.response.data.message);
     }
   }
   return (

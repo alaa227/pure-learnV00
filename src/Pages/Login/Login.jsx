@@ -37,39 +37,46 @@ export default function Login() {
   async function sendData(values) {
     let id;
     try {
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
+
       const option = {
-        url: "https://ecommerce.routemisr.com/api/v1/auth/signin ",
+        url: "http://gradproj.runasp.net/api/student/login ",
         method: "POST",
-        data: values,
+        data: formData,
       };
 
-      id = toast.loading("waiting...");
-      const { data } = await axios.request(option);
-      console.log(data);
+      // id = toast.loading("waiting...");
+      const re = await axios.request(option);
+      console.log(re);
       toast.dismiss(id);
       toast.success("user logedin successfully");
 
       setTimeout(() => {
-        if (data.message === "success") {
+        if (re.status === 200) {
           //^el token kan b null
           //^ dlw2ty hyt change el state bta3tha ehy mogoda fe eh context الي كله يقدر يشوفها
           //^ lma el user y logi sucessfuly
           //^we el value bta3t el token.... bta3 el "user" de ahna mehtagenha fe kol el app
-          localStorage.setItem("token", data.token);
-          setToken(data.token);
+          // localStorage.setItem("token", data.token);
+          // setToken(data.token);
           navigate("/app");
         }
       }, 1000);
     } catch (error) {
+      console.log(error);
+
       toast.dismiss(id);
-      toast.error(error.response.data.message);
-      setErrorMsg(error.response.data.message);
+      toast.error(error.response.data);
+      setErrorMsg(error.response.data);
     }
   }
 
   return (
     <>
-      <section>
+      <section className="mx-44 my-10">
         <h2 className="text-primary text-xl pb-4">
           <i className=" fa-regular fa-circle-user me-3"></i>
           <span>Login</span>
@@ -119,12 +126,15 @@ export default function Login() {
               ""
             )}
           </div>
-          <div>
+          {/* <div>
             <Link to="/auth/forgotpassword">
               <p>Forget Password ?</p>
             </Link>
-          </div>
-          <button type="submit" className=" btn-primary ">
+          </div> */}
+          <button
+            type="submit"
+            className=" bg-primary p-2 text-white rounded-lg mt-5 text-xl font-[500] border hover:bg-white hover:text-primary hover:border-primary transition-all"
+          >
             log in
           </button>
         </form>

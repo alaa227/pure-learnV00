@@ -40,42 +40,42 @@ export default function Register() {
   async function sendData(values) {
     let id;
     try {
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
+
       const option = {
         url: "http://gradproj.runasp.net/api/student/signup",
         method: "POST",
-        data: values,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+        data: formData,
       };
-      const r = await axios.request(option);
-      console.log(r);
-      // id = toast.loading("waiting...");
-      // const { data } = await axios.request(option);
-      // console.log(data);
-      // toast.dismiss(id);
-      // toast.success("user created successfully");
+      
+      id = toast.loading("waiting...");
+      const re= await axios.request(option);
+      console.log(re);
+      toast.dismiss(id);
+      toast.success("user created successfully");
 
-      // setTimeout(() => {
-      //   if (data.message === "success") {
-      //     navigate("/app");
-      //   }
-      // }, 3000);
+      setTimeout(() => {
+        if (re.status === 200) {
+          navigate("/app");
+        }
+      }, 3000);
     } catch (error) {
       console.log("e:");
       console.log(error);
 
-      // toast.dismiss(id);
-      // toast.error(error.response.data.message);
-      // setErrorMsg(error.response.data.message);
+      toast.dismiss(id);
+      toast.error(error.response.data);
+      setErrorMsg(error.response.data);
     }
   }
 
   return (
     <>
-      <section>
-        <h2 className="text-primary text-xl pb-4">
+      <section className="mx-44 my-10">
+        <h2 className="text-primary text-xl pb-4 ">
           <i className=" fa-regular fa-circle-user me-3"></i>
           <span>Register now</span>
         </h2>
@@ -143,7 +143,10 @@ export default function Register() {
             )}
           </div>
 
-          <button type="submit" className=" btn-primary ">
+          <button
+            type="submit"
+            className="bg-primary p-2 text-white rounded-lg mt-5 text-xl font-[500] border hover:bg-white hover:text-primary hover:border-primary transition-all"
+          >
             Sign up
           </button>
         </form>
