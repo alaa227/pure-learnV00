@@ -6,11 +6,10 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
 export default function Register() {
-
   //within toast
-  const [errorMsg ,setErrorMsg]=useState(null)
+  const [errorMsg, setErrorMsg] = useState(null);
   //to go to home
-  const navigate =useNavigate(); 
+  const navigate = useNavigate();
   const schema = yup.object({
     name: yup
       .string()
@@ -28,52 +27,51 @@ export default function Register() {
         /^[A-Z][0-9a-zA-Z]{5,15}$/,
         "password should start with uppercase letter followed by a combinations of letters and numberfrom 5 to 25 char"
       ),
-    rePassword: yup
-      .string()
-      .required("re-password is required")
-      .oneOf(
-        [yup.ref("password")],
-        "password and repassword should be the same"
-      ),
   });
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
-      rePassword: "",
-     
     },
-    validationSchema:schema,
+    validationSchema: schema,
     onSubmit: sendData,
   });
   async function sendData(values) {
     let id;
-   try{
-     const option = {
-      url: "https://ecommerce.routemisr.com/api/v1/auth/signup",
-      method : "POST",
-      data: values
-    };
+    try {
+      const option = {
+        url: "http://gradproj.runasp.net/api/student/signup",
+        method: "POST",
+        data: values,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      };
+      const r = await axios.request(option);
+      console.log(r);
+      // id = toast.loading("waiting...");
+      // const { data } = await axios.request(option);
+      // console.log(data);
+      // toast.dismiss(id);
+      // toast.success("user created successfully");
 
-     id=  toast.loading("waiting...")
-    const {data} =await axios.request(option);
-    console.log(data);
-    toast.dismiss(id);
-    toast.success("user created successfully");
+      // setTimeout(() => {
+      //   if (data.message === "success") {
+      //     navigate("/app");
+      //   }
+      // }, 3000);
+    } catch (error) {
+      console.log("e:");
+      console.log(error);
 
-    setTimeout(()=>{
-      if (data.message === "success") {
-        navigate("/app");
-      }
-    },3000)
-   } catch(error){
-     toast.dismiss(id);
-    toast.error(error.response.data.message);
-     setErrorMsg(error.response.data.message);
-   }
+      // toast.dismiss(id);
+      // toast.error(error.response.data.message);
+      // setErrorMsg(error.response.data.message);
+    }
   }
-  
+
   return (
     <>
       <section>
@@ -117,7 +115,7 @@ export default function Register() {
             ) : (
               ""
             )}
-            {errorMsg? (
+            {errorMsg ? (
               <div className=" text-red-600 font-semibold mt-2">
                 *{errorMsg}
               </div>
@@ -125,7 +123,7 @@ export default function Register() {
               ""
             )}
           </div>
-         
+
           <div>
             <input
               type="password"
@@ -144,24 +142,7 @@ export default function Register() {
               ""
             )}
           </div>
-          <div>
-            <input
-              type="password"
-              className=" form-control w-full"
-              placeholder="repassword"
-              name="rePassword"
-              value={formik.values.rePassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.rePassword && formik.touched.rePassword ? (
-              <div className=" text-red-600 font-semibold mt-2">
-                *{formik.errors.rePassword}
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
+
           <button type="submit" className=" btn-primary ">
             Sign up
           </button>
